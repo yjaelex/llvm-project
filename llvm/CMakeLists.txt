@@ -306,6 +306,7 @@ set(LLVM_ALL_TARGETS
   WebAssembly
   X86
   XCore
+  TestXPU
   )
 
 # List of targets with JIT support:
