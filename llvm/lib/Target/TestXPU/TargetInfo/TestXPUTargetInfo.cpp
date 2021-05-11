@@ -16,6 +16,5 @@ Target &llvm::getTheTestXPUTarget() {
 }
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeTestXPUTargetInfo() {
-  RegisterTarget<Triple::TestXPU, /*HasJIT=*/true> X(
-      getTheTestXPUTarget(), "TestXPU", "TestXPU", "TestXPU");
+    RegisterTarget<Triple::testxpu, true> X(getTheTestXPUTarget(), "testxpu", "TestXPU", "TestXPU");
 }

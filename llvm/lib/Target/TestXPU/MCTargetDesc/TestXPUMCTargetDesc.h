@@ -45,6 +45,7 @@
 // Name of the global offset table as defined by the TestXPU ABI
 #define TestXPU_GOT_SYM_NAME "_GLOBAL_OFFSET_TABLE_"
 
+/*
 namespace llvm {
 
 struct InstrStage;
@@ -100,6 +101,7 @@ unsigned TestXPUGetLastSlot();
 unsigned TestXPUConvertUnits(unsigned ItinUnits, unsigned *Lanes);
 
 } // End llvm namespace
+*/
 
 // Define symbolic names for TestXPU registers.  This defines a mapping from
 // register name to register number.

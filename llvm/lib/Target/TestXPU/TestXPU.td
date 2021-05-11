@@ -17,6 +17,15 @@ include "TestXPURegisterInfo.td"
 // Instruction Description
 include "TestXPUInstrInfo.td"
 
+def FeatureTestXPU : SubtargetFeature<"testxpu", "TestXPUArchVersion", 
+	"TestXPU", "TestXPU ISA Support All Feature">;
+
+class Proc<string Name, list<SubtargetFeature> Features> :
+    Processor<Name, TestXPUGenericItineraries, Features>;
+
+def : Proc<"testxpu", [FeatureTestXPU]>; // enable the command paramters "-mcpu=testxpu"
+
+
 def TestXPUInstrInfo : InstrInfo;
 
 def TestXPU : Target {

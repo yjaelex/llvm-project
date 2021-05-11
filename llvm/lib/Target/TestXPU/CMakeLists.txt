@@ -11,14 +11,14 @@ add_public_tablegen_target(TestXPUCommonTableGen)
 add_llvm_target(TestXPUCodeGen
   TestXPUTargetMachine.cpp
 
-  # LINK_COMPONENTS
+  LINK_COMPONENTS
   #  Analysis
   # AsmPrinter
   # CodeGen
   # Core
   # TestXPUAsmParser
-  # TestXPUDesc
-  # TestXPUInfo
+  TestXPUDesc
+  TestXPUInfo
   # IPO
   # MC
   # Scalar
@@ -31,6 +31,6 @@ add_llvm_target(TestXPUCodeGen
   TestXPU
 )
 
-#add_subdirectory(MCTargetDesc)
-#add_subdirectory(TargetInfo)
+add_subdirectory(MCTargetDesc)
+add_subdirectory(TargetInfo)
 

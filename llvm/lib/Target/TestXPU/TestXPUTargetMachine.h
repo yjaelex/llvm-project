@@ -25,7 +25,7 @@ static Reloc::Model getEffectiveRelocModel(Optional<Reloc::Model> RM) {
 }
 
 static CodeModel::Model
-getEffectiveSparcCodeModel(Optional<CodeModel::Model> CM, Reloc::Model RM) {
+getEffectiveTestXPUCodeModel(Optional<CodeModel::Model> CM, Reloc::Model RM) {
   if (CM) {
     if (*CM == CodeModel::Tiny)
       report_fatal_error("Target does not support the tiny CodeModel", false);

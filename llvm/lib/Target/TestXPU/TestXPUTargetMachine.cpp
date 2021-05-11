@@ -12,7 +12,8 @@
 
 #include "TestXPUTargetMachine.h"
 //#include "TestXPU.h"
-//#include "TargetInfo/TestXPUTargetInfo.h"
+#include "TargetInfo/TestXPUTargetInfo.h"
+
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/CodeGen/TargetPassConfig.h"
 #include "llvm/IR/LegacyPassManager.h"
@@ -30,11 +31,6 @@ static cl::opt<bool> EnableCExtOpt("TestXPU-cext", cl::Hidden, cl::ZeroOrMore,
 
 namespace llvm {
   //void initializeTestXPUBitSimplifyPass(PassRegistry&);
-
-Target & getTheTestXPUTarget() {
-  static Target TheTestXPUTarget;
-  return TheTestXPUTarget;
-}
 
 } // end namespace llvm;
 
