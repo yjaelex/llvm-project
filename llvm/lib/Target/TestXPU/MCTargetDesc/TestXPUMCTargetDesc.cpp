@@ -11,6 +11,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "MCTargetDesc/TestXPUMCTargetDesc.h"
+#include "MCTargetDesc/TestXPUMCAsmInfo.h"
 #include "TargetInfo/TestXPUTargetInfo.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/ADT/StringRef.h"
@@ -58,13 +59,32 @@ static MCInstPrinter *createTestXPUMCInstPrinter(const Triple &T,
 static MCAsmInfo *createTestXPUMCAsmInfo(const MCRegisterInfo &MRI,
                                        const Triple &TT,
                                        const MCTargetOptions &Options) {
-  return nullptr;
+  MCAsmInfo * MAI = new TestXPUMCAsmInfo(TT);
+  unsigned SP = MRI.getDwarfRegNum(TestXPU::SP, true);
+  MCCFIInstruction Inst = MCCFIInstruction::cfiDefCfa(nullptr, SP, 0);
+  MAI->addInitialFrameState(Inst);
+  return MAI;
 }
 
 static MCInstrInfo *createTestXPUMCInstrInfo() {
   MCInstrInfo *X = new MCInstrInfo();
-  //InitTestXPUMCInstrInfo(X);
+  InitTestXPUMCInstrInfo(X);
   return X;
+}
+
+// TestXPU::SP  --> stack pointer
+// TestXPU::SR  --> status register
+// TestXPU::R13 --> RA reg: return address reg
+static MCRegisterInfo *createTestXPUMCRegisterInfo(const Triple &TT) {
+  MCRegisterInfo *X = new MCRegisterInfo();
+  InitTestXPUMCRegisterInfo(X, TestXPU::R13);
+  return X;
+}
+
+static MCSubtargetInfo *createTestXPUMCSubtargetInfo(const Triple &TT, StringRef CPU, StringRef FS) {
+  if (CPU.empty())
+    CPU = "testxpu";
+  return createTestXPUMCSubtargetInfoImpl(TT, CPU, /*TuneCPU*/ CPU, FS);
 }
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeTestXPUTargetMC() {
@@ -74,14 +94,14 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeTestXPUTargetMC() {
   TargetRegistry::RegisterMCInstrInfo(getTheTestXPUTarget(), createTestXPUMCInstrInfo);
 
   // Register the MC register info.
-  //TargetRegistry::RegisterMCRegInfo(*T, createTestXPUMCRegisterInfo);
+  TargetRegistry::RegisterMCRegInfo(getTheTestXPUTarget(), createTestXPUMCRegisterInfo);
 
   // Register the MC subtarget info.
-  //TargetRegistry::RegisterMCSubtargetInfo(*T, createTestXPUMCSubtargetInfo);
+  TargetRegistry::RegisterMCSubtargetInfo(getTheTestXPUTarget(), createTestXPUMCSubtargetInfo);
 
   // Register the MC Code Emitter.
-  //TargetRegistry::RegisterMCCodeEmitter(*T, createTestXPUMCCodeEmitter);
+  //TargetRegistry::RegisterMCCodeEmitter(getTheTestXPUTarget(), createTestXPUMCCodeEmitter);
 
   // Register the asm backend.
-  //TargetRegistry::RegisterMCAsmBackend(*T, createTestXPUAsmBackend);
+  // TargetRegistry::RegisterMCAsmBackend(getTheTestXPUTarget(), createTestXPUAsmBackend);
 }

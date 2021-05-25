@@ -44,13 +44,9 @@ public:
                                      const TargetOptions &Options,
                                      Optional<Reloc::Model> RM,
                                      Optional<CodeModel::Model> CM,
-                                     CodeGenOpt::Level OL, bool JIT)
-    : LLVMTargetMachine(T, computeDataLayout(TT), TT,
-                        CPU, FS, Options, getEffectiveRelocModel(RM),
-                        getEffectiveCodeModel(CM, CodeModel::Small), OL)
-{
+                                     CodeGenOpt::Level OL, bool JIT);
 
-}
+
 };
 
 #else

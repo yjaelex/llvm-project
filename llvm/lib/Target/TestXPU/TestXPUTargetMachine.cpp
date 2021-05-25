@@ -40,6 +40,19 @@ extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeTestXPUTarget() {
 
 }
 
+TestXPUTargetMachine::TestXPUTargetMachine(const Target &T, const Triple &TT,
+                                     StringRef CPU, StringRef FS,
+                                     const TargetOptions &Options,
+                                     Optional<Reloc::Model> RM,
+                                     Optional<CodeModel::Model> CM,
+                                     CodeGenOpt::Level OL, bool JIT)
+    : LLVMTargetMachine(T, computeDataLayout(TT), TT,
+                        CPU, FS, Options, getEffectiveRelocModel(RM),
+                        getEffectiveCodeModel(CM, CodeModel::Small), OL)
+{
+  initAsmInfo();
+}
+
 #if 0
 
 TestXPUTargetMachine::TestXPUTargetMachine(const Module &M, const std::string &FS)
